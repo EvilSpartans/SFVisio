@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sarah French Academy</title>
+    <link rel="icon" type="image/x-icon" href="images/favicon.png">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+    <div id="container">
+        <div id="form">
+            <div class="front">
+                <div class="top-content">
+                    <br><br>
+                    <h3 style="color: #ca6294;">Démarrer une visio</h3><br>
+                    <p>Créer une session et inviter les participants</p>
+                    <br><br><br>
+                    <input class="textfield nameIcon" id="startun" type="text" placeholder="Entrer votre nom">
+                    <input class="textfield passIcon" id="startpc" type="password" placeholder="Mot de passe">
+                    <input class="start" type="button" value="GO" onclick="newRoom()">
+                    <p id="or" class="or-start">Ou</p>
+                </div>
+                <div class="bot-content">
+                    <br><br>
+                    <p style="color: #ffffff;">
+                        Invité à une session ?
+                        <a href="#" onclick="flipToBack()" style="color: #ffffff; font-weight: bold; text-decoration: none;">Rejoindre</a>
+                    </p>
+                </div>
+            </div>
+            <div class="back">
+                <div class="top-content">
+                    <br><br>
+                    <h3 style="color: #ca6294;">Rejoindre une visio</h3><br>
+                    <p>Rencontrer les participants</p>
+                    <br><br><br>
+                    <input class="textfield nameIcon" id="joinun" type="text" placeholder="Entrer votre nom">
+                    <input class="textfield inviteIcon" id="joininv" type="text" placeholder="Votre invitation">
+                    <input class="textfield passIcon" id="joinpc" type="password" placeholder="Mot de passe">
+                    <input class="join" type="button" value="GO" onclick="joinRoom()">
+                    <p id="or" class="or-join">Ou</p>
+                </div>
+                <div class="bot-content">
+                    <br><br>
+                    <p style="color: #ffffff;">
+                        Créer une session
+                        <a href="#" onclick="flipToFront()" style="color: #ffffff; font-weight: bold; text-decoration: none;">Démarrer</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function flipToBack() {
+            document.getElementById("form").style.transform = 'rotateY(180deg)';
+        }
+
+        function flipToFront() {
+            document.getElementById("form").style.transform = 'rotateY(0deg)';
+        }
+
+        function newRoom() {
+            var un = document.getElementById("startun").value;
+            var pc = document.getElementById("startpc").value;
+
+            // Vérification des champs avant la redirection
+            if (un.trim() === "" || pc.trim() === "") {
+                alert("Veuillez remplir tous les champs");
+            } else {
+                location.assign("/newroom?username=" + un + "&passcode=" + pc);
+            }
+        }
+
+        function joinRoom() {
+            var un = document.getElementById("joinun").value;
+            var inv = document.getElementById("joininv").value;
+            var pc = document.getElementById("joinpc").value;
+
+            // Vérification des champs avant la redirection
+            if (un.trim() === "" || pc.trim() === "") {
+                alert("Veuillez remplir tous les champs");
+            } else {
+                location.assign("/joinroom?username=" + un + "&invitation=" + inv + "&passcode=" + pc);
+            }
+        }
+    </script>
+</body>
+</html>

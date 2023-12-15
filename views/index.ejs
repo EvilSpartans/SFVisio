@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="images/favicon.png">
+    <link rel="stylesheet" href="css/index.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div id="form" class="glow">
+            <div id="content">
+                <div class="left-content">
+                    <div class="top-left">
+                        <div class="logo">
+                          <img src="images/favicon.png" style="height: 35px; margin-top: 12px;">
+                        </div> <!--End of logo-->
+                        <div class="header">
+                            <p style="margin: 0px; padding: 12px 0px 0px 10px; font-weight: bold;">Sarah French Academy</p>
+                            <p id="date" style="margin: 0px; padding: 0px 0px 0px 10px; font-size: 10pt;"></p>
+                            <span id="power" onclick="leaveMeeting()">
+                              <i class="material-icons">&#xe8ac;</i>
+                            </span>
+                        </div> <!--End of header-->
+                    </div> <!--End of top-left-->
+                    <div class="middle-left">
+                        <video id="main-video" title="Double click to display fullscreen." ondblclick="fullscreen()" autoplay></video>            
+                        <div id="video-grid">
+                              
+                        </div><!--End of video-grid-->
+                    </div><!--End of middle-left-->
+                    <div id="bot-left">
+                        <div class="command-btn" id="audioControl" onclick="muteUnmute()">
+                            <i class="material-icons">&#xe029;</i>
+                            <p class="label">Microphone</p>
+                        </div>
+                        <div class="command-btn" id="videoControl" onclick="playStop()">
+                            <i class="material-icons">&#xe04b;</i>
+                            <p class="label">Caméra</p>
+                        </div>
+                        <div class="command-btn" id="shareControl" onclick="shareScreen()">
+                            <i class="material-icons">&#xe0df;</i>
+                            <p class="label" id="shareText">Partager</p>
+                        </div>
+                        <div class="command-btn" id="recordControl" onclick="recordMeeting()">
+                            <i class="material-icons">&#xe061;</i>
+                            <p class="label">Enregistrer</p>
+                        </div>
+                    </div><!--End of bot-left-->
+                </div><!--End of left-content-->
+                <div id="right-content">
+                    <p style="margin: 15px; padding: 12px 0px 0px 10px; font-weight: bold; color: #202020;">Discussions</p>
+                    <div class="active"></div>
+                    <div id="info">
+                        <p style="color: #ffffff; font-size: 11pt; padding: 10px 0px 0px 12px; ">Participants :</p>
+                        <p style="color: #ffffff; font-size: 50pt; padding-left: 120px;" id="participant">0</p>
+                        <i class="material-icons" style="color: #ffffff; font-size: 40px; position: relative; bottom: 47px; left: 228px;">&#xe7fd;</i>
+                    </div><!--End of info-->
+                    <div id="chatroom">
+                        
+                    </div><!--End of chatroom-->
+                    <div id="chatform">
+                        <label>
+                            <input type="file" id="file" style="display: none;" onchange="selectFile(this.value)">
+                            <i class="material-icons" style="font-size: 18px; color: #4f4f4f; float: left; margin-left: 10px; margin-top: 15px; transform: rotate(45deg); cursor: pointer;">&#xe226;</i>
+                        </label>
+                        <input id="textchat" type="text" placeholder="Écrire ...">
+                        <button id="sendMessage" style="background-color: #ca6294; border: none; margin-left: 8px; padding: 4px 3px 2px 3px; margin-top: 8px; border-radius: 6px; cursor: pointer;">
+                            <i class="material-icons" style="color: #ffffff; font-size: 25px; font-weight: bold;">&#xe315;</i>
+                        </button>
+                    </div><!--End of chatform-->
+                </div><!--End of right-content-->
+            </div> <!--End of content-->
+        </div> <!--End of form-->
+    </div><!--End of container-->
+
+    <script>
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        const days = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
+        const months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+        let day = days[new Date().getDay()];
+        let date = new Date().getDate();
+        let month = months[new Date().getMonth()];
+        let year = new Date().getFullYear();
+        document.getElementById("date").innerHTML = day + ", " + date + " " + month + " " + year;
+
+        const ROOM_ID = "<%= roomId %>";
+        const USERNAME = "<%= username %>";
+
+        function fullscreen() {
+             var mainVideo = document.getElementById("main-video");  
+             if (mainVideo.requestFullscreen) {
+                mainVideo.requestFullscreen();
+            }
+        }
+
+        var symbol, color;
+        symbol = "0123456789ABCDEF";
+        color = "#";
+        for(var i=0; i<6; i++){
+           color = color+symbol[Math.floor(Math.random()*16)];
+        }
+        const RANDOM_COLOR = color;
+    </script>
+    <script src="webrtc-controller.js"></script>
+</body>
+
+</html>
